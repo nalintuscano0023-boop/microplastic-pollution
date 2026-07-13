@@ -136,7 +136,9 @@ export function HiddenSources() {
                 aria-label={`Learn about ${h.label}`}
                 aria-expanded={activeId === h.id}
                 onMouseEnter={() => setActiveId(h.id)}
+                onMouseLeave={() => setActiveId(null)}
                 onFocus={() => setActiveId(h.id)}
+                onBlur={() => setActiveId(null)}
                 onClick={() =>
                   setActiveId((cur) => (cur === h.id ? null : h.id))
                 }

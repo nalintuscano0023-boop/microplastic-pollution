@@ -88,6 +88,10 @@ export function OceanParticles({
     const onResize = () => {
       resize()
       init()
+      if (reduced) {
+        draw(0)
+        cancelAnimationFrame(raf)
+      }
     }
     window.addEventListener('resize', onResize)
     return () => {
