@@ -82,22 +82,25 @@
 .glass {
   background: linear-gradient(
     135deg,
-    oklch(0.9 0.04 210 / 10%),
-    oklch(0.6 0.08 220 / 6%)
+    oklch(0.95 0.03 210 / 13%),
+    oklch(0.7 0.07 215 / 5%) 42%,
+    oklch(0.85 0.09 200 / 9%)
   );
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid oklch(0.9 0.05 200 / 18%);
+  backdrop-filter: blur(28px) saturate(1.7);
+  -webkit-backdrop-filter: blur(28px) saturate(1.7);
+  border: 1px solid oklch(0.93 0.05 200 / 24%);
   box-shadow:
-    0 8px 32px oklch(0.08 0.04 250 / 45%),
-    inset 0 1px 0 oklch(1 0 0 / 12%);
+    0 12px 44px oklch(0.06 0.04 250 / 50%),
+    inset 0 1px 0 oklch(1 0 0 / 20%),
+    inset 0 -1px 0 oklch(0.85 0.08 200 / 6%);
 }
 
 .glass-glow {
   box-shadow:
-    0 0 40px oklch(0.82 0.13 195 / 15%),
-    0 8px 32px oklch(0.08 0.04 250 / 45%),
-    inset 0 1px 0 oklch(1 0 0 / 15%);
+    0 0 48px oklch(0.82 0.13 195 / 18%),
+    0 12px 44px oklch(0.06 0.04 250 / 50%),
+    inset 0 1px 0 oklch(1 0 0 / 22%),
+    inset 0 -1px 0 oklch(0.85 0.08 200 / 6%);
 }
 
 /* Sun rays */

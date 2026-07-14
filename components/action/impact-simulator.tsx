@@ -9,7 +9,7 @@ import { usePrefersReducedMotion } from '@/lib/use-media'
 const OceanScene = dynamic(() => import('./ocean-scene'), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center bg-[#0a3d62]">
+    <div className="flex h-full w-full items-center justify-center bg-[#05263c]">
       <p className="text-sm tracking-wide text-foreground/60">
         Filling the ocean…
       </p>
@@ -19,6 +19,7 @@ const OceanScene = dynamic(() => import('./ocean-scene'), {
 
 type Habit = {
   id: string
+  icon: string
   label: string
   unit: string
   max: number
@@ -27,17 +28,17 @@ type Habit = {
 }
 
 const habits: Habit[] = [
-  { id: 'bottles', label: 'Plastic bottles', unit: 'per week', max: 20, weight: 0.3, initial: 6 },
-  { id: 'laundry', label: 'Synthetic laundry loads', unit: 'per week', max: 10, weight: 0.25, initial: 4 },
-  { id: 'singleuse', label: 'Single-use plastics', unit: 'per day', max: 10, weight: 0.25, initial: 3 },
-  { id: 'packaging', label: 'Plastic-packaged meals', unit: 'per week', max: 14, weight: 0.2, initial: 7 },
+  { id: 'bottles', icon: '🍶', label: 'Plastic bottles', unit: 'per week', max: 20, weight: 0.3, initial: 6 },
+  { id: 'laundry', icon: '🧺', label: 'Synthetic laundry loads', unit: 'per week', max: 10, weight: 0.25, initial: 4 },
+  { id: 'singleuse', icon: '🍴', label: 'Single-use plastics', unit: 'per day', max: 10, weight: 0.25, initial: 3 },
+  { id: 'packaging', icon: '📦', label: 'Plastic-packaged meals', unit: 'per week', max: 14, weight: 0.2, initial: 7 },
 ]
 
 function healthLabel(health: number) {
-  if (health > 80) return { text: 'Thriving reef', color: 'text-accent' }
-  if (health > 60) return { text: 'Recovering waters', color: 'text-primary' }
-  if (health > 40) return { text: 'Stressed ecosystem', color: 'text-[oklch(0.78_0.15_55)]' }
-  return { text: 'Critical decline', color: 'text-[oklch(0.7_0.17_30)]' }
+  if (health > 80) return { text: 'Thriving reef', color: 'text-[#10B981]' }
+  if (health > 60) return { text: 'Recovering waters', color: 'text-[#22D3EE]' }
+  if (health > 40) return { text: 'Stressed ecosystem', color: 'text-[#F4D03F]' }
+  return { text: 'Critical decline', color: 'text-[#FB7185]' }
 }
 
 export function ImpactSimulator() {
@@ -121,12 +122,12 @@ export function ImpactSimulator() {
                   active={inView}
                 />
               )}
-              {!inView && <div className="h-full w-full bg-[#0a3d62]" />}
+              {!inView && <div className="h-full w-full bg-[#05263c]" />}
             </div>
 
             {/* health readout */}
             <div
-              className="glass absolute left-4 top-4 rounded-2xl px-5 py-3.5"
+              className="glass glass-glow float-gentle absolute left-4 top-4 rounded-2xl px-5 py-3.5"
               role="status"
               aria-live="polite"
             >
@@ -149,8 +150,11 @@ export function ImpactSimulator() {
                   <div className="flex items-baseline justify-between">
                     <label
                       htmlFor={`sim-${h.id}`}
-                      className="text-sm text-foreground/90"
+                      className="flex items-center gap-2 text-sm text-foreground/90"
                     >
+                      <span aria-hidden="true" className="text-base">
+                        {h.icon}
+                      </span>
                       {h.label}
                     </label>
                     <span className="font-serif text-xl text-primary">
