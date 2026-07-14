@@ -1,6 +1,6 @@
 🌊 Project Blue — An Immersive 3D Storytelling Experience on Microplastic Pollution
 
-> "Plastic never truly disappears. It only becomes small enough that we stop seeing it."
+"Plastic never truly disappears. It only becomes small enough that we stop seeing it."
 
 Project Blue is a next-generation immersive web experience that reimagines environmental awareness through cinematic storytelling, interactive design, and modern web technologies.
 
