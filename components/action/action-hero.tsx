@@ -24,13 +24,25 @@ export function ActionHero() {
       <OceanParticles density={35} />
 
       <div className="relative z-10 mx-auto max-w-3xl px-6 pt-24 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.1 }}
+          className="mb-7 flex items-center justify-center gap-3"
+        >
+          <span className="font-serif text-3xl text-primary/70">04</span>
+          <span className="h-px w-10 bg-border" />
+          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            04
+          </span>
+        </motion.div>
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.1, delay: 0.2 }}
           className="text-sm uppercase tracking-[0.35em] text-primary"
         >
-          The Action Hub
+          Take Action
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 32 }}

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { OceanParticles } from './particles'
 
@@ -54,18 +55,18 @@ export function OceanReflection() {
           transition={{ duration: 1, delay: 0.8 }}
           className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
         >
-          <a
+          <Link
             href="/action"
             className="glass glass-glow rounded-full bg-primary/20 px-8 py-4 text-sm font-medium tracking-wide text-foreground transition-transform duration-300 hover:scale-105 hover:text-primary"
           >
-            Discover Your Impact →
-          </a>
-          <a
-            href="#top"
+            Turn understanding into action →
+          </Link>
+          <Link
+            href="/"
             className="glass rounded-full px-8 py-4 text-sm font-medium tracking-wide text-foreground/80 transition-transform duration-300 hover:scale-105 hover:text-primary"
           >
-            Return to the Surface
-          </a>
+            Back to the beginning
+          </Link>
         </motion.div>
 
         <footer className="mt-24 text-xs tracking-wide text-muted-foreground/70">
