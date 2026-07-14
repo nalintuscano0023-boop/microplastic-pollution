@@ -15,9 +15,12 @@ type Particle = {
 export function OceanParticles({
   density = 60,
   className,
+  color = '180, 230, 240',
 }: {
   density?: number
   className?: string
+  /** RGB triplet, e.g. "255, 170, 90" */
+  color?: string
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -70,7 +73,7 @@ export function OceanParticles({
         const flicker = 0.75 + Math.sin(t / 1600 + p.phase) * 0.25
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(180, 230, 240, ${p.opacity * flicker})`
+        ctx.fillStyle = `rgba(${color}, ${p.opacity * flicker})`
         ctx.fill()
       }
       raf = requestAnimationFrame(draw)
@@ -98,7 +101,7 @@ export function OceanParticles({
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', onResize)
     }
-  }, [density])
+  }, [density, color])
 
   return (
     <canvas

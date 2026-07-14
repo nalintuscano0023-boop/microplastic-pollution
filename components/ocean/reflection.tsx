@@ -47,16 +47,26 @@ export function OceanReflection() {
           your plate. The journey you just took starts and ends with a single
           choice.
         </motion.p>
-        <motion.a
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-20%' }}
           transition={{ duration: 1, delay: 0.8 }}
-          href="#top"
-          className="glass glass-glow mt-12 rounded-full px-8 py-4 text-sm font-medium tracking-wide text-foreground transition-transform duration-300 hover:scale-105 hover:text-primary"
+          className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
         >
-          Return to the Surface
-        </motion.a>
+          <a
+            href="/action"
+            className="glass glass-glow rounded-full bg-primary/20 px-8 py-4 text-sm font-medium tracking-wide text-foreground transition-transform duration-300 hover:scale-105 hover:text-primary"
+          >
+            Discover Your Impact →
+          </a>
+          <a
+            href="#top"
+            className="glass rounded-full px-8 py-4 text-sm font-medium tracking-wide text-foreground/80 transition-transform duration-300 hover:scale-105 hover:text-primary"
+          >
+            Return to the Surface
+          </a>
+        </motion.div>
 
         <footer className="mt-24 text-xs tracking-wide text-muted-foreground/70">
           The Unseen Ocean — an immersive story about microplastic pollution.

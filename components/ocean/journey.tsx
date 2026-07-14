@@ -8,6 +8,7 @@ import {
   useMotionValueEvent,
   useScroll,
 } from 'framer-motion'
+import { useEcoStore } from '@/lib/eco-store'
 
 type Stage = {
   image: string
@@ -72,6 +73,7 @@ const stages: Stage[] = [
 export function PlasticJourney() {
   const ref = useRef<HTMLElement>(null)
   const [active, setActive] = useState(0)
+  const completeTimeMachine = useEcoStore((s) => s.completeTimeMachine)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end end'],
@@ -83,6 +85,7 @@ export function PlasticJourney() {
       Math.floor(v * stages.length),
     )
     if (idx !== active) setActive(idx)
+    if (idx === stages.length - 1) completeTimeMachine()
   })
 
   return (

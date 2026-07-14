@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion } from 'framer-motion'
+import { HOTSPOT_COUNT, useEcoStore } from '@/lib/eco-store'
 
 type Hotspot = {
   id: string
@@ -11,6 +12,8 @@ type Hotspot = {
   y: number // percentage
   how: string
   travel: string
+  alternative: string
+  tip: string
 }
 
 const hotspots: Hotspot[] = [
@@ -21,6 +24,8 @@ const hotspots: Hotspot[] = [
     y: 52,
     how: 'Each squeeze, twist, and refill sheds microscopic fragments into the water you drink.',
     travel: 'Discarded bottles fragment in landfills and waterways for centuries.',
+    alternative: 'A stainless steel bottle lasts decades and sheds nothing.',
+    tip: 'Refill at home before leaving — most bottled water is just filtered tap.',
   },
   {
     id: 'teabags',
@@ -29,6 +34,8 @@ const hotspots: Hotspot[] = [
     y: 44,
     how: 'Many "silky" tea bags are woven plastic. Hot water releases billions of micro and nanoplastics per cup.',
     travel: 'Particles go directly into your body — and down the drain.',
+    alternative: 'Loose leaf tea with a steel infuser tastes better and sheds nothing.',
+    tip: 'Paper tea bags labeled "plastic-free" are a safe middle ground.',
   },
   {
     id: 'containers',
@@ -37,6 +44,8 @@ const hotspots: Hotspot[] = [
     y: 55,
     how: 'Heating plastic containers accelerates the shedding of particles into food, especially fatty meals.',
     travel: 'Washed residue enters wastewater that treatment plants cannot fully filter.',
+    alternative: 'Glass or steel containers survive the microwave without shedding.',
+    tip: 'Never microwave food in plastic — transfer to a plate or glass first.',
   },
   {
     id: 'clothing',
@@ -45,6 +54,8 @@ const hotspots: Hotspot[] = [
     y: 62,
     how: 'Polyester and nylon release hundreds of thousands of microfibers with every wash cycle.',
     travel: 'Laundry water carries fibers straight to rivers and, eventually, the sea.',
+    alternative: 'Cotton, linen, and wool shed natural fibers that biodegrade.',
+    tip: 'Wash synthetics cold, full-load, and less often — friction sheds fibers.',
   },
   {
     id: 'sponge',
@@ -53,6 +64,8 @@ const hotspots: Hotspot[] = [
     y: 58,
     how: 'Every scrub wears down the polyurethane foam, releasing fragments onto dishes and into the sink.',
     travel: 'Fragments flow through drains into the water cycle.',
+    alternative: 'A natural loofah or wooden brush scrubs just as well.',
+    tip: 'Compost worn-out natural sponges instead of binning plastic ones.',
   },
   {
     id: 'cuttingboard',
@@ -61,6 +74,18 @@ const hotspots: Hotspot[] = [
     y: 48,
     how: 'Knife cuts on polyethylene boards can transfer millions of microplastic particles into food each year.',
     travel: 'Ingested directly, or rinsed into wastewater.',
+    alternative: 'A wooden board is naturally antimicrobial and knife-friendly.',
+    tip: 'If you keep plastic boards, retire them once deeply scarred.',
+  },
+  {
+    id: 'toothbrush',
+    label: 'Toothbrush',
+    x: 8,
+    y: 40,
+    how: 'Nylon bristles and plastic handles wear down with every brush — a billion toothbrushes are discarded yearly.',
+    travel: 'Worn bristle fragments rinse down the drain twice a day.',
+    alternative: 'Bamboo-handled brushes cut the plastic by 90%.',
+    tip: 'Replace only the head if your brush supports it.',
   },
   {
     id: 'cosmetics',
@@ -69,12 +94,21 @@ const hotspots: Hotspot[] = [
     y: 28,
     how: 'Exfoliants, glitters, and film-formers in many products are intentionally added microplastics.',
     travel: 'Rinsed off skin, they slip past filters and enter waterways.',
+    alternative: 'Look for "polyethylene-free" labels and mineral-based glitter.',
+    tip: 'Scan ingredient lists for polyethylene (PE) and polypropylene (PP).',
   },
 ]
 
 export function HiddenSources() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const active = hotspots.find((h) => h.id === activeId) ?? null
+  const discoverHotspot = useEcoStore((s) => s.discoverHotspot)
+  const discovered = useEcoStore((s) => s.discoveredHotspots)
+
+  const open = (id: string) => {
+    setActiveId(id)
+    discoverHotspot(id)
+  }
 
   return (
     <section
@@ -106,6 +140,15 @@ export function HiddenSources() {
             The journey does not begin in the ocean. It begins at home. Explore
             the room — each glowing point is a quiet source.
           </p>
+          <p
+            className="glass mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs tracking-wide text-foreground/80"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            {discovered.length} of {HOTSPOT_COUNT} sources discovered
+            {discovered.length === HOTSPOT_COUNT && ' — Plastic Detective!'}
+          </p>
         </motion.div>
 
         {/* Interactive scene */}
@@ -135,17 +178,26 @@ export function HiddenSources() {
                 type="button"
                 aria-label={`Learn about ${h.label}`}
                 aria-expanded={activeId === h.id}
-                onMouseEnter={() => setActiveId(h.id)}
+                onMouseEnter={() => open(h.id)}
                 onMouseLeave={() => setActiveId(null)}
-                onFocus={() => setActiveId(h.id)}
+                onFocus={() => open(h.id)}
                 onBlur={() => setActiveId(null)}
-                onClick={() =>
+                onClick={() => {
+                  discoverHotspot(h.id)
                   setActiveId((cur) => (cur === h.id ? null : h.id))
-                }
-                className="hotspot-pulse absolute z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/70 bg-primary/50 backdrop-blur-sm transition-transform duration-300 hover:scale-125 focus-visible:scale-125"
+                }}
+                className={`hotspot-pulse absolute z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full border backdrop-blur-sm transition-transform duration-300 hover:scale-125 focus-visible:scale-125 ${
+                  discovered.includes(h.id)
+                    ? 'border-accent/80 bg-accent/50'
+                    : 'border-primary/70 bg-primary/50'
+                }`}
                 style={{ left: `${h.x}%`, top: `${h.y}%` }}
               >
-                <span className="absolute inset-1 rounded-full bg-primary" />
+                <span
+                  className={`absolute inset-1 rounded-full ${
+                    discovered.includes(h.id) ? 'bg-accent' : 'bg-primary'
+                  }`}
+                />
               </button>
             ))}
           </div>
@@ -171,6 +223,14 @@ export function HiddenSources() {
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {active.travel}
                 </p>
+                <div className="mt-3 border-t border-border pt-3">
+                  <p className="text-sm leading-relaxed text-accent">
+                    ↺ {active.alternative}
+                  </p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                    Tip: {active.tip}
+                  </p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

@@ -2,7 +2,13 @@
 
 import { useRef } from 'react'
 import Image from 'next/image'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import {
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'framer-motion'
 import { OceanParticles } from './particles'
 
 export function OceanHero() {
@@ -11,6 +17,24 @@ export function OceanHero() {
     target: ref,
     offset: ['start start', 'end start'],
   })
+
+  // Mouse-responsive parallax
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const parallaxX = useSpring(useTransform(mouseX, [-0.5, 0.5], [12, -12]), {
+    stiffness: 50,
+    damping: 20,
+  })
+  const parallaxY = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), {
+    stiffness: 50,
+    damping: 20,
+  })
+
+  const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
 
   // Diving effect: image scales up + darkens as you scroll
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.35])
@@ -24,9 +48,13 @@ export function OceanHero() {
       id="top"
       aria-label="Introduction"
       className="relative h-[160vh]"
+      onMouseMove={onMouseMove}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div style={{ scale }} className="absolute inset-0">
+        <motion.div
+          style={{ scale, x: parallaxX, y: parallaxY }}
+          className="absolute inset-[-16px]"
+        >
           <Image
             src="/images/hero-ocean.png"
             alt="Crystal-clear tropical ocean with sun rays, coral reefs and a sea turtle"

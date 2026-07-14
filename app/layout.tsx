@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Instrument_Serif } from 'next/font/google'
+import { EcoProvider } from '@/components/ocean/eco-provider'
 import './globals.css'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans-family' })
@@ -51,7 +52,7 @@ export default function RootLayout({
       className={`bg-background ${geist.variable} ${instrumentSerif.variable}`}
     >
       <body className="antialiased font-sans">
-        {children}
+        <EcoProvider>{children}</EcoProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

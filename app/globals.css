@@ -149,10 +149,69 @@
   animation: hotspot-pulse 2.4s ease-out infinite;
 }
 
+/* Ocean current flow lines (Plastic Vision) */
+@keyframes current-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -240;
+  }
+}
+
+.current-flow {
+  animation: current-flow 10s linear infinite;
+}
+
+/* Habit sliders (Ocean Impact Simulator) */
+.eco-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    oklch(0.82 0.13 195 / 60%),
+    oklch(0.7 0.17 30 / 55%)
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.eco-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 9999px;
+  background: oklch(0.97 0.01 200);
+  border: 2px solid oklch(0.82 0.13 195);
+  box-shadow: 0 0 12px oklch(0.82 0.13 195 / 50%);
+  transition: transform 0.2s ease;
+}
+
+.eco-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.eco-slider::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 9999px;
+  background: oklch(0.97 0.01 200);
+  border: 2px solid oklch(0.82 0.13 195);
+  box-shadow: 0 0 12px oklch(0.82 0.13 195 / 50%);
+}
+
+.eco-slider:focus-visible {
+  box-shadow: 0 0 0 3px oklch(0.82 0.13 195 / 40%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sun-ray,
   .float-gentle,
-  .hotspot-pulse {
+  .hotspot-pulse,
+  .current-flow {
     animation: none;
   }
   html {
